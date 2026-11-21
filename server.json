@@ -1,0 +1,29 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "au.com.souldriver/karp-inspector",
+  "title": "KARP Inspector",
+  "description": "52 tools for Claude Desktop: filesystem, knowledge graph and code search. Runs locally. Free, MIT.",
+  "version": "0.5.0",
+  "websiteUrl": "https://souldriver.com.au/karp-tools.html",
+  "repository": {
+    "url": "https://github.com/souldriver007/karp-inspector",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/souldriver007/karp-inspector/main/assets/icon.png",
+      "mimeType": "image/png"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/souldriver007/karp-inspector/releases/download/v0.5.0/karp-inspector.mcpb",
+      "version": "0.5.0",
+      "fileSha256": "95015f843091b7c0a592444b107d1166ae72d58e97e659f47b15d6078771626f",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
