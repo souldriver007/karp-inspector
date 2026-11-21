@@ -111,6 +111,8 @@ npm run build
 
 The extension is written to `dist/karp-inspector.mcpb`.
 
+> **Linux (x64):** run installs as `ONNXRUNTIME_NODE_INSTALL_CUDA=skip npm install` (or `npm ci`). Otherwise onnxruntime-node's install script tries to download optional GPU binaries, and that download currently fails. Inspector only needs the CPU binaries, which are already in the package.
+
 ---
 
 ## Testing

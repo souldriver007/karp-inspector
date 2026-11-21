@@ -25,6 +25,13 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
+    env:
+      # onnxruntime-node's install script tries to download optional CUDA (GPU)
+      # binaries on Linux x64, and that download now returns 404, failing
+      # `npm ci`. Inspector runs on the CPU binaries that ship inside the npm
+      # package, so skip it. Has no effect on Windows or macOS.
+      ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+
     steps:
       - uses: actions/checkout@v4
 
