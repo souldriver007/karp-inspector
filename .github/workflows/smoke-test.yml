@@ -1,0 +1,61 @@
+name: Smoke Test
+
+# Runs the MCP server on Windows, macOS and Linux and drives it with a real
+# JSON-RPC client. No Claude Desktop involved — the server is just a Node
+# process speaking stdio, so any client will do.
+#
+# macOS matters most here: the project is developed on Windows, and several
+# code paths (the `which` lookup in run_check, realpath handling of symlinked
+# temp directories) have never executed on a Mac.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Don't cancel the other platforms when one fails — a macOS-only bug is
+      # exactly what this exists to surface, and we want the full picture.
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # The embedding model is gitignored (the full-precision file exceeds
+      # GitHub's 100MB limit). Cache it so it's fetched once per runner image
+      # rather than on every run.
+      - name: Cache embedding model
+        uses: actions/cache@v4
+        with:
+          path: models
+          key: model-${{ runner.os }}-${{ hashFiles('scripts/download-model.js') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download embedding model (if not cached)
+        run: npm run download-model
+
+      - name: Syntax check
+        run: |
+          node --check server/index.js
+          node --check server/filesystem.js
+          node --check server/graph.js
+          node --check server/inspector.js
+          node --check server/intelligence.js
+          node --check server/database.js
+          node --check server/utils.js
+
+      - name: Smoke test
+        run: node scripts/smoke-test.js

@@ -1,0 +1,104 @@
+{
+  "manifest_version": "0.3",
+  "name": "karp-inspector",
+  "display_name": "KARP Inspector",
+  "version": "0.5.0",
+  "description": "52-tool unified development intelligence server. Filesystem CRUD, knowledge graph, semantic code search, index observability, dependency analysis, security audit, safe terminal execution — all in one. Your code never leaves your machine.",
+  "author": {
+    "name": "SoulDriver",
+    "url": "https://souldriver.com.au"
+  },
+  "icon": "icon.png",
+  "license": "MIT",
+  "privacy_policies": [
+    "https://souldriver.com.au/privacy.html"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js", "${user_config.project_dirs}"],
+      "env": {
+        "DATA_PATH": "${user_config.data_path}",
+        "ALLOWED_COMMANDS": "${user_config.allowed_commands}"
+      }
+    }
+  },
+  "user_config": {
+    "data_path": {
+      "type": "directory",
+      "title": "Data Folder",
+      "description": "Choose where to store your knowledge graph and code index. Pick any folder — your data stays on your machine and survives extension updates.",
+      "required": true
+    },
+    "project_dirs": {
+      "type": "directory",
+      "title": "Project Folders",
+      "description": "Choose one or more top-level folders Claude can read, write, and search within (subfolders included). This is the file boundary for all filesystem tools — Claude can't touch anything outside these. Click again to add more.",
+      "multiple": true,
+      "required": true
+    },
+    "allowed_commands": {
+      "type": "string",
+      "title": "Allowed Terminal Commands",
+      "description": "Semicolon-separated command prefixes run_check may execute. Defaults to syntax checking only. IMPORTANT: adding test or build runners (npm test, npm run build, pytest) lets a project execute its own code on your machine — npm scripts come from that project's package.json, and pytest runs its conftest.py. Only add those for repositories you trust. Example: node --check;npm test;npm run lint;npm run build;pytest",
+      "default": "node --check",
+      "required": false
+    }
+  },
+  "tools": [
+    { "name": "read_file", "description": "Read text files with optional head/tail limits" },
+    { "name": "read_files", "description": "Read multiple files in a single call" },
+    { "name": "write_file", "description": "Atomic write with dry_run preview and auto-snapshot" },
+    { "name": "patch_file", "description": "Safe string replacement with dry_run preview and auto-snapshot" },
+    { "name": "list_directory", "description": "List files and dirs with size, date, type" },
+    { "name": "directory_tree", "description": "Recursive tree view respecting .gitignore" },
+    { "name": "file_info", "description": "Detailed metadata: size, dates, permissions, MIME" },
+    { "name": "move_file", "description": "Move or rename files and directories" },
+    { "name": "copy_file", "description": "Copy files or directories recursively" },
+    { "name": "create_directory", "description": "Create directories with parents" },
+    { "name": "delete_file", "description": "Soft delete to trash with auto-snapshot" },
+    { "name": "find_files", "description": "Glob search with date/size filters" },
+    { "name": "search_replace", "description": "Cross-file find and replace with dry_run and auto-snapshot" },
+    { "name": "disk_usage", "description": "Biggest files, directory sizes, by extension" },
+    { "name": "checksum", "description": "SHA256 hash of files" },
+    { "name": "run_check", "description": "Execute pre-approved terminal commands (tests, linters, syntax checks)" },
+    { "name": "git_checkpoint", "description": "Safety checkpoint before refactors (git or SQLite fallback)" },
+    { "name": "karp_undo", "description": "Revert file changes from auto-snapshots" },
+    { "name": "remember", "description": "Store memories, decisions, todos, insights in the knowledge graph" },
+    { "name": "recall", "description": "Semantic search across the knowledge graph by meaning" },
+    { "name": "forget", "description": "Delete a knowledge graph node" },
+    { "name": "connect", "description": "Create named relationships between graph nodes" },
+    { "name": "update", "description": "Edit a graph node in place, preserving its id, created_at and edges" },
+    { "name": "graph_search", "description": "Keyword search across graph nodes" },
+    { "name": "graph_list", "description": "Browse nodes by type, tags, or date" },
+    { "name": "propose_node_type", "description": "Create custom node types with icons" },
+    { "name": "kg_status", "description": "Knowledge graph health and statistics" },
+    { "name": "graph_snapshot", "description": "Backup the entire database" },
+    { "name": "re_embed", "description": "Rebuild all vector embeddings" },
+    { "name": "search_code", "description": "Semantic code search — find functions by meaning" },
+    { "name": "grep_code", "description": "Exact string or regex search with context" },
+    { "name": "file_outline", "description": "Structural overview: classes, functions, signatures (absolute or root-relative path)" },
+    { "name": "index_project", "description": "Build semantic search index for a codebase" },
+    { "name": "reindex_file", "description": "Re-index a single file after editing (absolute or root-relative path)" },
+    { "name": "file_history", "description": "List saved snapshots of a file" },
+    { "name": "file_diff", "description": "Diff between snapshots or live file" },
+    { "name": "project_stats", "description": "Index statistics: files, chunks, coverage" },
+    { "name": "set_project", "description": "Set one or several project roots — search, grep and index span them all" },
+    { "name": "list_projects", "description": "List every indexed project root with chunk and file counts" },
+    { "name": "index_status", "description": "Which files are new, changed or deleted since the last index" },
+    { "name": "forget_project", "description": "Delete a project root's index and reclaim the space (dry run by default)" },
+    { "name": "export_index", "description": "Export a project's index and embeddings to a portable file" },
+    { "name": "import_index", "description": "Import a previously exported index, with optional root remapping" },
+    { "name": "repo_map", "description": "Compressed structural map — 10,000 lines to 500 tokens" },
+    { "name": "dependency_graph", "description": "Import/require mapping with circular dep detection" },
+    { "name": "impact_analysis", "description": "Blast radius — what breaks if I change this file?" },
+    { "name": "dead_code", "description": "Find exported symbols nothing imports" },
+    { "name": "todo_scan", "description": "Extract TODO/FIXME/HACK comments across the codebase" },
+    { "name": "security_audit", "description": "Scan for API keys, tokens, secrets, high-entropy strings" },
+    { "name": "list_allowed_directories", "description": "Show configured directory permissions" },
+    { "name": "list_allowed_commands", "description": "Show approved terminal command patterns" },
+    { "name": "server_status", "description": "Diagnostics: version, uptime, boundary, database size and snapshot health" }
+  ]
+}

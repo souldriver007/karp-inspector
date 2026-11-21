@@ -1,0 +1,75 @@
+# ─────────────────────────────────────────────────────────────
+# KARP Inspector Premium — .gitignore
+# ─────────────────────────────────────────────────────────────
+
+# Dependencies — restored with `npm install`
+node_modules/
+
+# Embedding model — NOT committed, and not optional to exclude.
+# GitHub hard-rejects any single file over 100MB, and the full-precision
+# model.onnx is ~127MB, so committing it makes the push fail outright.
+# The quantized model is ~32MB and would technically fit, but bundling
+# binary weights in git history bloats every future clone forever.
+#
+# Anyone building from source runs:  npm run download-model
+# The build script already warns if models/ is missing.
+models/
+
+# Runtime data — databases, snapshots, soft-deleted files.
+# These hold indexed source content and knowledge-graph nodes; they are
+# per-machine state, never source.
+data/
+database/
+*.db
+*.db-journal
+snapshots/
+trash/
+
+# Inspector Lite drops its JSON index cache inside whatever project root it
+# indexes — including this one, if it's ever pointed here.
+.karp-inspector/
+
+# Stray directory created by passing a literal "..." as ALLOWED_DIRS/DATA_PATH
+# during CLI testing. Windows treats it as a real folder name and git chokes
+# trying to walk it.
+.../
+
+# Build artifacts
+*.mcpb
+dist/
+build/
+stage/
+.mcpb-build/
+
+# Secrets and local config — no .env is used by the server today, but
+# ignore it pre-emptively so one can never be added by accident.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+private-key*
+signing-key*
+
+# Logs
+*.log
+logs/
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp files written by atomic-write operations that failed to rename
+*.tmp.*
+
+# Legacy — retired proxy architecture, kept locally for reference only
+proxy/
+
+# Internal development notes, kept out of the public repo
+CHECKPOINT.md
+HANDOVER.md
+tools-list.json

@@ -1,0 +1,43 @@
+{
+  "name": "karp-inspector",
+  "version": "0.5.0",
+  "description": "KARP Inspector — unified filesystem, knowledge graph and code intelligence for Claude Desktop",
+  "main": "server/index.js",
+  "author": "SoulDriver <hello@souldriver.com.au>",
+  "license": "MIT",
+  "homepage": "https://souldriver.com.au",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/souldriver007/karp-inspector.git"
+  },
+  "bugs": {
+    "url": "https://github.com/souldriver007/karp-inspector/issues"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "knowledge-graph",
+    "codebase-search",
+    "filesystem",
+    "souldriver",
+    "karp"
+  ],
+  "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
+    "acorn": "^8.11.0",
+    "acorn-walk": "^8.3.0",
+    "sql.js": "^1.14.1"
+  },
+  "overrides": {
+    "sharp": "^0.35.5"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "download-model": "node scripts/download-model.js",
+    "smoke": "node scripts/smoke-test.js",
+    "build": "node scripts/build_mcpb.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
