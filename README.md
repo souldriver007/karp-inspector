@@ -61,7 +61,12 @@ Inspector Lite is the lightweight, search-only sibling. Inspector is the full to
 
 ### Extension Install (Recommended)
 
-Download `karp-inspector.mcpb` from the [latest release](https://github.com/souldriver007/karp-inspector/releases/latest) → Claude Desktop → Settings → Extensions → Advanced Settings → Install Extension → Select the file → Choose a data folder and your project folders → Done.
+1. Download `karp-inspector.mcpb` from the [latest release](https://github.com/souldriver007/karp-inspector/releases/latest).
+2. In Claude Desktop, open **Settings** (on Windows: **File → Settings**), click **Desktop app** in the left panel, scroll to the bottom and choose **Extensions → Manage → Advanced settings → Install extension**, then select the downloaded file.
+3. Choose a **Data Folder** (where the database lives) and one or more **Project Folders** (the code Claude can read and edit).
+4. Click **Enable**, then **Configure**, and choose **Allow all** on the permissions screen.
+
+Then ask Claude to run `server_status`: it should report version 0.5.0 and 52 tools.
 
 The server runs directly via stdio (no proxy, no background process) — same pattern as every other KARP MCP server.
 
